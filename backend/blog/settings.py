@@ -43,8 +43,8 @@ INSTALLED_APPS = [
 
     # ADDED
     'rest_framework',
-    'rest_framework_simplejwt.token_blacklist',
-    'corsheaders',
+    'rest_framework_simplejwt.token_blacklist', # JSON Web Token - simple way to blacklist JWT using simpleJWT lib
+    'corsheaders', # Adds CORS headers to Django Project - allows to specify which origins are allowed to make req to server
 
 ]
 
