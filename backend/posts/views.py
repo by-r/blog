@@ -52,19 +52,28 @@ class PostDetailAPIView(APIView):
     def get(self, request, pk, *args, **kwargs):
         post = self.get_object(pk)
         if post is None:
-            return Response({'error':'Post not found'}, status = status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Post not found'}, status = status.HTTP_404_NOT_FOUND)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status = status.HTTP_200_OK)
+    
+    # class is called when a PUT request is sent to the view. It uses the get_object method to retrieve the post with the specified pk, 
+    # updates the post with the data from the request and saves the updated pos
+    def put(self, request, pk, *args, **kwargs):
+        post = self.get_object(pk)
+        if post is None:
+            return Response({'error': 'Post not found'}, status = status.HTTP_404_NOT_FOUND)
         data = {
-            'user' : request.user.id,
-            'title' : request.data.get('title'),
-            'body' : request.data.get('body'),
-            'upvote_count' : post.upvote_count
+            'user': request.user.id,
+            'title': request.data.get('title'),
+            'body': request.data.get('body'),
+            'upvote_count': post.upvote_count
         }
         serializer = PostSerializer(post, data = data, partial = True)
         if serializer.is_valid():
             if post.user.id == request.user.id:
                 serializer.save()
                 return Response(serializer.data, status = status.HTTP_200_OK)
-            return Response({'error': 'You are not authorized to edit this post'}, status= status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "You are not authorized to edit this post"}, status = status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
     
     # uses the get_object method to retrieve the post with the specified pk and then deletes it 
@@ -80,7 +89,6 @@ class PostDetailAPIView(APIView):
     
 class UserPostAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
 
     # retrieves all the posts created by that user, and then creates a serialized representation of the data 
     # using the PostSerializer class.
