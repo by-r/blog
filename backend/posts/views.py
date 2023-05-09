@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # DRF
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -9,12 +7,10 @@ from .models import Post, Upvote, Comment
 from .serializers import PostSerializer, UpvoteSerializer, CommentSerializer
 from django.contrib.auth.models import User
 
-# Create your views here.
-
 # provide the ability to fetch all the blog posts available and also will have the ability to create a new blog post
 class PostListAPIView(APIView):
     # The permission_classes attribute of the PostListAPIView class specifies that only authenticated users are allowed to access this view
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     # retrieves all the blog posts on the website and creates a serialized representation of the data using the PostSerializer class
     def get(self, request, *args, **kwargs):
@@ -38,7 +34,7 @@ class PostListAPIView(APIView):
 
 class PostDetailAPIView(APIView):
     # The permission_classes attribute of the PostListAPIView class specifies that only authenticated users are allowed to access this view
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     #  helper method that retrieves the post with the specified primary key (pk)
     def get_object(self, pk):
