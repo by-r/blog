@@ -4,7 +4,7 @@ from .views import PostListAPIView, PostDetailAPIView, UserPostAPIView, UpvoteAP
 urlpatterns = [
     path("", PostListAPIView.as_view()),
     path("<int:pk>/", PostDetailAPIView.as_view()),
-    path("<int:pk>/upvote", UpvoteAPIView.as_view()),
-    path("<int:pk>/comment", CommentAPIView.as_view()),
+    path("<int:pk>/upvote/", UpvoteAPIView.as_view()),
+    path("<int:pk>/comment/", CommentAPIView.as_view()),
     path("<username>/", UserPostAPIView.as_view()),
 ]

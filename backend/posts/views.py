@@ -18,7 +18,7 @@ class PostListAPIView(APIView):
 
     # retrieves all the blog posts on the website and creates a serialized representation of the data using the PostSerializer class
     def get(self, request, *args, **kwargs):
-        posts = Post.object.all()
+        posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
